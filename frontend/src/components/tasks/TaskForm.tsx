@@ -27,7 +27,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSubmit, onCancel }) => {
     if (validate()) {
       onSubmit({ title, description });
       if (!task) {
-        // Reset form only for new tasks
         setTitle('');
         setDescription('');
       }
@@ -35,54 +34,67 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSubmit, onCancel }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 card p-6">
-      <div className="mb-6">
-        <label htmlFor="title" className="block text-xl font-extrabold text-electric-blue mb-3">
-          Title *
-        </label>
-        <input
-          id="title"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={`w-full px-4 py-3 text-lg border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 ${
-            errors.title 
-              ? 'border-hot-red focus:border-hot-red' 
-              : 'border-gray-300 focus:border-electric-blue'
-          }`}
-          placeholder="Enter task title..."
-        />
-        {errors.title && <p className="text-hot-red text-base italic mt-2 font-bold">{errors.title}</p>}
-      </div>
-      <div className="mb-6">
-        <label htmlFor="description" className="block text-xl font-extrabold text-vibrant-orange mb-3">
-          Description
-        </label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-orange-300 focus:border-vibrant-orange transition-all duration-300"
-          placeholder="Enter task description (optional)..."
-          rows={4}
-        />
-      </div>
-      <div className="flex flex-wrap gap-4">
-        <button
-          type="submit"
-          className="btn-primary text-lg py-3 px-8"
-        >
-          {task ? 'Update Task' : 'Add Task'}
-        </button>
-        {onCancel && (
+    <form onSubmit={handleSubmit} className="mb-8">
+      <div className="bg-white rounded-xl p-6 border border-gray-200">
+        <h3 className="text-lg font-bold text-gray-800 mb-6">
+          {task ? 'Edit Task' : 'Add New Task'}
+        </h3>
+
+        <div className="space-y-4">
+          {/* Title Field */}
+          <div>
+            <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
+              Task Title <span className="text-hot-red">*</span>
+            </label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all font-semibold ${
+                errors.title
+                  ? 'border-hot-red focus:ring-hot-red/30 bg-red-50'
+                  : 'border-gray-300 focus:ring-electric-blue/30 focus:border-electric-blue'
+              }`}
+              placeholder="What needs to be done?"
+            />
+            {errors.title && <p className="text-hot-red text-sm mt-1 font-semibold">{errors.title}</p>}
+          </div>
+
+          {/* Description Field */}
+          <div>
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
+              Description <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-blue/30 focus:border-electric-blue transition-all font-semibold"
+              placeholder="Add more details..."
+              rows={3}
+            />
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-wrap gap-3 mt-6">
           <button
-            type="button"
-            onClick={onCancel}
-            className="btn-danger text-lg py-3 px-8"
+            type="submit"
+            className="px-6 py-2 bg-electric-blue text-white font-bold rounded-lg hover:bg-blue-600 transition-all"
           >
-            Cancel
+            {task ? 'Update Task' : 'Add Task'}
           </button>
-        )}
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-6 py-2 border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-50 transition-all"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </div>
     </form>
   );

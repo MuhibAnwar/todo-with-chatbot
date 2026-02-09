@@ -57,6 +57,7 @@ const TasksPage: React.FC = () => {
         // Guest user - save to localStorage using utility
         const newTask = {
           id: Date.now().toString(), // Simple ID generation for guest tasks
+          user_id: 'guest-user', // Assign a default guest user ID
           title: taskData.title,
           description: taskData.description || '',
           completed: false,
